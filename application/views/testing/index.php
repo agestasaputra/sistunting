@@ -12,17 +12,26 @@
 
             <?php echo form_open_multipart('testing/proses'); ?>
             <form>
-
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Nama Balita</h6>
-                  <input type="text" name="nama_balita" class="form-control" placeholder="Masukan Nama Balita ..." required>
+                  <select name="nama_balita" class="form-control">
+                    <option value="">Silakan Pilih Nama Balita</option>
+                    <?php
+                    $no = 1;
+                    if ($data_balita) :
+                      foreach ($data_balita as $balita) :
+                    ?>
+                        <option value="<?= $balita['nama_balita']; ?>"><?= $balita['nama_balita']; ?></option>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                  </select>
                 </div>
               </div>
+
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Jenis Kelamin</h6>
-
                   <select name="jenis_kelamin" class="form-control">
                     <option value="">Silakan Pilih Jenis Kelamin</option>
                     <option value="Laki-laki"> Laki-laki </option>
@@ -30,6 +39,7 @@
                   </select>
                 </div>
               </div>
+
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Usia </h6>
@@ -37,16 +47,16 @@
                 </div>
                 <input type="hidden" name="kategori_usia" id="kategori_usia" class="form-control" >
               </div>
+
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Tinggi Badan Lahir (Cm) </h6>
                   <input type="number" name="tinggi_badan" class="form-control" placeholder="Masukan Tinggi Badan ..." required>
                 </div>
               </div>
+
               <h6 class="text-dark ml-4">Gejala yang dialami:</h6>
               <span class="ml-4"><i>Silahkan Pilih Gejala yang di alami!</i></span>
-
-
               <table class="table table-striped ml-4 col-md-11">
 
                 <tbody>

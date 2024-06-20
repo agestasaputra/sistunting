@@ -5,6 +5,7 @@ class testing extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('model_data_balita');
         $this->load->model('model_data_gejala');
         $this->load->model('model_data_indikator');
         $this->load->model('user_model');
@@ -19,6 +20,7 @@ class testing extends CI_Controller
         $data['judul'] = 'Tetsing Stunting';
         $data['nama'] =  $this->session->userdata('nama');
         $data['data_gejala'] = $this->model_data_gejala->get();
+        $data['data_balita'] = $this->model_data_balita->get();
         $data['data_user'] = $this->user_model->get_detail($this->session->userdata('nama'));
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
