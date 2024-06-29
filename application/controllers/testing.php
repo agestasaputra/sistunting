@@ -29,6 +29,13 @@ class testing extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
+    public function get_detail_balita($id)
+    {
+        //Mengambil data balita dari model_data_balita
+        $data_detail_balita = $this->model_data_balita->get_detail_ajax($id);
+        echo json_encode($data_detail_balita);
+    }
+
     public function proses()
     {
         //Mengambil data gejala dari pakar

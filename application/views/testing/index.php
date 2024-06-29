@@ -9,20 +9,19 @@
         <div class="card">
           <?= $this->session->flashdata('notif'); ?>
           <div class="card-body">
-
             <?php echo form_open_multipart('testing/proses'); ?>
             <form>
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Nama Balita</h6>
-                  <select name="nama_balita" class="form-control">
-                    <option value="">Silakan Pilih Nama Balita</option>
+                  <select name="nama_balita" class="form-control" onchange="handleDropdownChange()">
+                    <option value=""> Pilih nama balita</option>
                     <?php
                     $no = 1;
                     if ($data_balita) :
                       foreach ($data_balita as $balita) :
                     ?>
-                        <option value="<?= $balita['nama_balita']; ?>"><?= $balita['nama_balita']; ?></option>
+                      <option value="<?= $balita['id_balita']; ?>"><?= $balita['nama_balita']; ?></option>
                     <?php endforeach; ?>
                     <?php endif; ?>
                   </select>
@@ -32,10 +31,10 @@
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Jenis Kelamin</h6>
-                  <select name="jenis_kelamin" class="form-control">
-                    <option value="">Silakan Pilih Jenis Kelamin</option>
-                    <option value="Laki-laki"> Laki-laki </option>
-                    <option value="Perempuan"> Perempuan </option>
+                  <select name="jenis_kelamin" id="form-jenis-kelamin" class="form-control" disabled>
+                    <option value="">Pilih jenis kelamin</option>
+                    <option value="laki-laki"> Laki-laki </option>
+                    <option value="perempuan"> Perempuan </option>
                   </select>
                 </div>
               </div>
@@ -43,15 +42,14 @@
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Usia </h6>
-                  <input type="number" name="usia" id="usia" class="form-control" placeholder="Masukan usia  ..." required>
+                  <input type="number" name="usia" id="form-usia" class="form-control" placeholder="Masukan usia" required disabled>
                 </div>
-                <input type="hidden" name="kategori_usia" id="kategori_usia" class="form-control" >
               </div>
 
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Tinggi Badan Lahir (Cm) </h6>
-                  <input type="number" name="tinggi_badan" class="form-control" placeholder="Masukan Tinggi Badan ..." required>
+                  <input type="number" name="tinggi_badan" id="form-tinggi-badan" class="form-control" placeholder="Masukan tinggi Badan" required disabled>
                 </div>
               </div>
 
@@ -98,3 +96,35 @@
 </div>
 </section>
 </div>
+
+
+<!-- skrip tampil data -->
+<script type="text/javascript">
+  function getAge(tglLahir) {
+    const birthDate = new Date(tglLahir);
+    const today = new Date();
+    const monthDiff = (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
+    const ageInMonths = monthDiff + (today.getDate() < birthDate.getDate() ? -1 : 0);
+    return ageInMonths
+  }
+  function handleDropdownChange($event) {
+    const BASE_URL = '<?php echo base_url(); ?>';
+    $.ajax({
+      type: "GET",
+      url: `${BASE_URL}/testing/get_detail_balita/${+event.target.value}`,
+      dataType: "json",
+      success: function(response) {
+        // mapping data to form
+        const formJenisKelamin = document.getElementById('form-jenis-kelamin');
+        formJenisKelamin.value = response.jenis_kelamin;
+        const formTinggiBadan = document.getElementById('form-tinggi-badan');
+        formTinggiBadan.value = response.tb_lahir;        
+        const formUsia = document.getElementById('form-usia');
+        const resultAge = getAge(response.tgl_lahir); 
+        formUsia.value = resultAge;
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        console.log('error', xhr, ajaxOptions, thrownError)}
+    });
+  }
+</script>
