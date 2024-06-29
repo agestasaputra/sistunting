@@ -97,8 +97,6 @@
 </section>
 </div>
 
-
-<!-- skrip tampil data -->
 <script type="text/javascript">
   function getAge(tglLahir) {
     const birthDate = new Date(tglLahir);
