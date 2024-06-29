@@ -12,6 +12,11 @@ class model_data_balita extends CI_Model
     {
         return $this->db->get_where('table_data_balita', ['id_balita' => $id])->row_array();
     }
+    public function get_detail_ajax($id)
+    {
+        // mengambil data balita by id_balita dari database
+        return $this->db->get_where('table_data_balita', ['id_balita' => $id])->row();
+    }
     public function get_jumlah()
     {
         return $this->db->get('table_data_balita')->num_rows();
