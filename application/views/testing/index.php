@@ -14,7 +14,7 @@
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Nama Balita</h6>
-                  <select name="nama_balita[]" class="form-control" onchange="handleDropdownChange()">
+                  <select name="nama_balita[]" id="nama_balita" class="form-control" onchange="handleDropdownChange()">
                     <option value=""> Pilih nama balita</option>
                     <?php
                     $no = 1;
@@ -31,7 +31,7 @@
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Jenis Kelamin (L/P)</h6>
-                  <select name="jenis_kelamin[]" id="jenis-kelamin" class="form-control" readonly style="pointer-events: none;">
+                  <select name="jenis_kelamin" id="jenis_kelamin" class="form-control" readonly style="pointer-events: none;">
                     <option value="">Pilih jenis kelamin</option>
                     <option value="laki-laki"> Laki-laki </option>
                     <option value="perempuan"> Perempuan </option>
@@ -50,7 +50,7 @@
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Tinggi Badan Lahir (Cm) </h6>
-                  <input type="number" name="tinggi_badan" id="tinggi-badan" class="form-control" placeholder="Masukan tinggi Badan" required readonly style="pointer-events: none;">
+                  <input type="number" name="tinggi_badan" id="tinggi_badan" class="form-control" placeholder="Masukan tinggi Badan" required readonly style="pointer-events: none;">
                 </div>
               </div>
 
@@ -75,14 +75,14 @@
                           ?>
                         </td>
                         <td>
-                          <select name="pilihan[]" id="gejala-<?= $no-1 ?>" class="form-control" required <?php echo $no-1 === 10 ? "readonly style='pointer-events: none;'" : ''; ?>>
+                          <select name="pilihan[]" id="gejala_<?= $no-1 ?>" class="form-control" onchange="handleCf(this.options[this.selectedIndex].text, '<?= $a['nilai_cf'] ?>', '<?= $no-1 ?>')" required <?php echo $no-1 === 10 ? "readonly style='pointer-events: none;'" : ''; ?>>
                             <option value="">Silakan Pilih </option>
                             <option value="Ya"> Ya</option>
                             <option value="Tidak"> Tidak</option>
                           </select>
                         </td>
                         <input type="hidden" name="kode_gejala[]" class="form-control" value="<?= $a['kode_gejala']; ?>" required>
-                        <input type="hidden" name="nilai_cf[]" class="form-control" value="<?= $a['nilai_cf']; ?>" required>
+                        <input type="hidden" name="nilai_cf[]" id="nilai_cf_<?= $no-1 ?>" class="form-control" value="" required>
                       </tr>
                     <?php endforeach; ?>
                   <?php endif; ?>
@@ -105,39 +105,70 @@
 </div>
 
 <script type="text/javascript">
-  function cfFormula1(cf1, cf2) {
-    const result = cf1 + cf2 * (1 - cf1)
-    return +result.toFixed(3)
+  window.addEventListener("pageshow", () => {
+    // update hidden input field
+    resetInput()
+    const formNamaBalita = document.getElementById('nama_balita');
+    formNamaBalita.value = '';
+  });
+  function resetInput() {
+    const formJenisKelamin = document.getElementById('jenis_kelamin');
+    const formTinggiBadan = document.getElementById('tinggi_badan');
+    const formUsia = document.getElementById('usia');
+    const formGelaja1 = document.getElementById('gejala_1');
+    const formGelaja2 = document.getElementById('gejala_2');
+    const formGelaja3= document.getElementById('gejala_3');
+    const formGelaja4 = document.getElementById('gejala_4');
+    const formGelaja5 = document.getElementById('gejala_5');
+    const formGelaja6 = document.getElementById('gejala_6');
+    const formGelaja7 = document.getElementById('gejala_7');
+    const formGelaja8 = document.getElementById('gejala_8');
+    const formGelaja9 = document.getElementById('gejala_9');
+    const formGelaja10 = document.getElementById('gejala_10');
+
+    const formNilaiCf1 = document.getElementById('nilai_cf_1');
+    const formNilaiCf2 = document.getElementById('nilai_cf_2');
+    const formNilaiCf3= document.getElementById('nilai_cf_3');
+    const formNilaiCf4 = document.getElementById('nilai_cf_4');
+    const formNilaiCf5 = document.getElementById('nilai_cf_5');
+    const formNilaiCf6 = document.getElementById('nilai_cf_6');
+    const formNilaiCf7 = document.getElementById('nilai_cf_7');
+    const formNilaiCf8 = document.getElementById('nilai_cf_8');
+    const formNilaiCf9 = document.getElementById('nilai_cf_9');
+    const formNilaiCf10 = document.getElementById('nilai_cf_10');
+    formJenisKelamin.value = '';
+    formTinggiBadan.value = '';
+    formUsia.value = '';
+    formGelaja1.value = ''
+    formGelaja2.value = ''
+    formGelaja3.value = ''
+    formGelaja4.value = ''
+    formGelaja5.value = ''
+    formGelaja6.value = ''
+    formGelaja7.value = ''
+    formGelaja8.value = ''
+    formGelaja9.value = ''
+    formGelaja10.value = ''
+    formNilaiCf1.value = ''
+    formNilaiCf2.value = ''
+    formNilaiCf3.value = ''
+    formNilaiCf4.value = ''
+    formNilaiCf5.value = ''
+    formNilaiCf6.value = ''
+    formNilaiCf7.value = ''
+    formNilaiCf8.value = ''
+    formNilaiCf9.value = ''
+    formNilaiCf10.value = ''
   }
-  function cfFormulaBukan1(cfOld, cfNext) {
-    const result = cfOld + cfNext * (1 - cfOld)
-    return +result.toFixed(3)
-  }
-  function handleSubmit() {
-    const cfGejala = [0.6, 0.6, 0.5, 0.8, 0.6, 0.5];
-    const cfOld = []
-    let cfPercentage = null
-
-    if (cfGejala.length === 0) {
-      cfPercentage = 0
-      console.log('cfPercentage:', cfPercentage)
-      return
+  function handleCf(value, nilaiCf, index) {
+    let result = null
+    if (value === 'Ya') {
+      result = +nilaiCf
+    } else {
+      result = 0
     }
-
-    cfOld.push(cfFormula1(cfGejala[0], cfGejala[1]))
-
-    if (cfGejala.length > 2) {
-      console.log('masuk looping!!')
-      cfGejala.forEach((cf, index) => {
-        if (index > 1) {
-          cfOld.push(cfFormulaBukan1(cfOld[cfOld.length-1], cf))
-        }
-      })
-    }
-
-    console.log('cfOld:', cfOld)
-    cfPercentage = cfOld[cfOld.length-1] * 100
-    console.log('cfPercentage:', cfPercentage)
+    const domNilaiCf = document.getElementById(`nilai_cf_${index}`)
+    domNilaiCf.value = result
   }
   function generateDescriptionAge(age, currentHeight) {
     let heightLimit = 99
@@ -154,8 +185,10 @@
     }
     const additionalInfoDOM = document.getElementById('additional-info')
     additionalInfoDOM.innerHTML = `<i>(Tinggi badan normal untuk usia <b>${age} bulan</b> adalah <b>${heightLimit} cm</b>)</i>`
-    const formGelaja10 = document.getElementById('gejala-10');
+    const formGelaja10 = document.getElementById('gejala_10');
     formGelaja10.value = currentHeight >= heightLimit ? 'Ya' : 'Tidak';
+    const domNilaiCf = document.getElementById(`nilai_cf_10`)
+    domNilaiCf.value = formGelaja10.value === 'Ya' ? 0.8 : 0
   }
   function getAge(tglLahir) {
     const birthDate = new Date(tglLahir);
@@ -173,38 +206,13 @@
       success: function(response) {
         console.log('response:', response)
         if (!response) {
-          const formJenisKelamin = document.getElementById('jenis-kelamin');
-          const formTinggiBadan = document.getElementById('tinggi-badan');
-          const formUsia = document.getElementById('usia');
-          const formGelaja1 = document.getElementById('gejala-1');
-          const formGelaja2 = document.getElementById('gejala-2');
-          const formGelaja3= document.getElementById('gejala-3');
-          const formGelaja4 = document.getElementById('gejala-4');
-          const formGelaja5 = document.getElementById('gejala-5');
-          const formGelaja6 = document.getElementById('gejala-6');
-          const formGelaja7 = document.getElementById('gejala-7');
-          const formGelaja8 = document.getElementById('gejala-8');
-          const formGelaja9 = document.getElementById('gejala-9');
-          const formGelaja10 = document.getElementById('gejala-10');
-          formJenisKelamin.value = '';
-          formTinggiBadan.value = '';
-          formUsia.value = '';
-          formGelaja1.value = ''
-          formGelaja2.value = ''
-          formGelaja3.value = ''
-          formGelaja4.value = ''
-          formGelaja5.value = ''
-          formGelaja6.value = ''
-          formGelaja7.value = ''
-          formGelaja8.value = ''
-          formGelaja9.value = ''
-          formGelaja10.value = ''
+          resetInput()
           return;
         }
         // mapping data to form
-        const formJenisKelamin = document.getElementById('jenis-kelamin');
+        const formJenisKelamin = document.getElementById('jenis_kelamin');
         formJenisKelamin.value = response.jenis_kelamin;
-        const formTinggiBadan = document.getElementById('tinggi-badan');
+        const formTinggiBadan = document.getElementById('tinggi_badan');
         formTinggiBadan.value = response.tb_lahir;        
         const formUsia = document.getElementById('usia');
         const resultAge = getAge(response.tgl_lahir); 
