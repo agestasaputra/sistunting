@@ -12,7 +12,7 @@
 
             <a class="btn btn-primary mb-2" href="<?= base_url('data_gejala/form_tambah'); ?>"> <i class="bx bx-plus"></i>Tambah Data</a>
 
-            <a class="btn btn-warning mb-2" href="<?= base_url('data_indikator'); ?>"> <i class="bx bx-plus"></i>Kelola Indikator Tinggi</a>
+            <!-- <a class="btn btn-warning mb-2" href="<?= base_url('data_indikator'); ?>"> <i class="bx bx-plus"></i>Kelola Indikator Tinggi</a> -->
 
             <br>
             <div class="table-responsive">

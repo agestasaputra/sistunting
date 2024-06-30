@@ -10,6 +10,7 @@ class testing extends CI_Controller
         $this->load->model('model_data_indikator');
         $this->load->model('user_model');
     }
+
     public function index()
     {
         if (!$this->user_model->cek_login()) {
@@ -36,6 +37,7 @@ class testing extends CI_Controller
         echo json_encode($data_detail_balita);
     }
 
+    // OLD LOGIC
     public function proses()
     {
         //Mengambil data gejala dari pakar
@@ -115,6 +117,43 @@ class testing extends CI_Controller
         <b>Data konsultasi Berhasil Disimpan! </div>');
         redirect('data_konsultasi');
     }
+
+    // NEW LOGIC
+    // public function proses()
+    // {
+
+    //     $id_balita = $this->input->post('nama_balita');
+        
+    //     // Mengambil data gejala dari db
+    //     $data_gejala = $this->model_data_gejala->get();
+        
+    //     // Mengambil data detail balita dari db
+    //     $data_detail_balita = $this->model_data_balita->get_detail($id_balita[0]);
+
+    //     //mengambil inputan data gejala dari pengguna
+    //     $nama_balita = $data_detail_balita['nama_balita'];
+    //     $jenis_kelamin = $data_detail_balita['jenis_kelamin'];
+    //     $usia = $this->input->post('usia');
+    //     $tinggi_badan = $this->input->post('tb_lahir');
+    //     $inputan_gejala = $this->input->post('pilihan');
+    //     $inputan_kode_gejala = $this->input->post('kode_gejala');
+    //     $inputan_nilai_cf = $this->input->post('nilai_cf');
+
+    //     $cfGejala = array();
+
+    //     foreach ($inputan_gejala as $index => $pilihan) {
+    //         print_r("Pilihan: $pilihan <br>");
+    //         if ($pilihan === 'Ya') {
+    //             array_push($cfGejala, $inputan_nilai_cf[$index]);
+    //         }
+    //     }
+
+
+    //     foreach ($cfGejala as $index => $value) {
+    //         echo "CF Gejala ke-".($index+1)." = ".$value."<br>";
+    //     }
+    // }
+
     public function detail($id)
     {
         if (!$this->user_model->cek_login()) {
