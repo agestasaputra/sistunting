@@ -24,7 +24,7 @@
 
                     <li <?= $this->uri->segment(1) == 'gizi_balita' ? 'class="nav-item active"' : 'class="nav-item"' ?>>
                         <a class="nav-link" href="<?= base_url('gizi_balita'); ?>">
-                            <span>Detail Gizi Balita </span></a>
+                            <span>Data Gizi Balita </span></a>
                     </li>
                 </ul>
             </li>

@@ -3330,8 +3330,7 @@ body.layout-3 .main-footer {
   display: inline-block;
   width: 100%;
   text-align: center;
-  height: 60px;
-  line-height: 60px;
+  height: inherit;
 }
 .main-sidebar .sidebar-brand.sidebar-brand-sm {
   display: none;

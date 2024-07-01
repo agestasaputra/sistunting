@@ -12,59 +12,68 @@
 
             <?php echo form_open_multipart('gizi_balita/ubah'); ?>
             <input hidden type="text" name="id_timbang" class="form-control" value="<?= $data_gizi['id_timbang'] ?>">
+
             <form>
+              <!-- Nama Balita -->
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Nama Balita</h6>
-                  <input type="text" name="nama_balita" class="form-control" placeholder="Masukan Nama Balita" value="<?= $data_gizi['nama_balita'] ?>" required>
+                  <input type="text" name="nama_balita" class="form-control" placeholder="Masukan Nama Balita" value="<?= $data_detail_balita['nama_balita'] ?>" required>
                 </div>
               </div>
+
+              <!-- Jenis Kelamin -->
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Jenis Kelamin</h6>
-                  <select name="jenis_kelamin" class="form-control" required>
+                  <select name="jenis_kelamin" id="select_jenis_kelamin" class="form-control" required>
                     <option value="">Silakan Pilih Jenis Kelamin</option>
                     <option value="Laki-laki"> Laki-laki </option>
                     <option value="Perempuan"> Perempuan </option>
                   </select>
                 </div>
               </div>
+
+              <!-- Usia -->
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Usia (Bulan)</h6>
-                  <input type="text" name="usia" id="usia" class="form-control" placeholder="Masukan Usia Balita" required value="<?= $data_gizi['usia'] ?>">
-                
+                  <input type="text" name="usia" id="usia" class="form-control" placeholder="Masukan Usia Balita" value="<?= $data_gizi['usia'] ?>" required>
                 </div>
-
               </div>
           
+              <!-- Berat Badan -->
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Berat Badan (Kg)</h6>
                   <input type="text" name="berat_badan" id="berat_badan" class="form-control" placeholder="Masukan Berat Badan" required value="<?= $data_gizi['berat_badan'] ?>">
-                
                 </div>
               </div>
+
+              <!-- Tinggi Badan -->
               <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Tinggi Badan (Cm)</h6>
                   <input type="text" name="tinggi_badan" id="tinggi_badan" class="form-control" placeholder="Masukan Tinggi Badan" required value="<?= $data_gizi['tinggi_badan'] ?>">
-                 
                 </div>
               </div>
+
+              <!-- Status Gizi -->
               <!-- <div class="form-group row mb-3 ml-2">
                 <div class="col-sm-12 col-md-11">
                   <h6 class="text-dark">Status Gizi</h6>
                   <input type="text" name="status_gizi" class="form-control" placeholder="Masukan Status Gizi ..." required value="<?= $data_gizi['status_gizi'] ?>">
                 </div>
               </div> -->
+
+              <!-- Button Simpan dan Batal -->
               <div class="form-group row mb-3 ml-2">
                 <a href="<?= base_url('gizi_balita'); ?>" class="btn btn-danger ml-3">Batal</a>
                 <button type="submit" class="btn btn-success ml-2">Simpan</button>
               </div>
             </form>
-            <?php echo form_close(); ?>
 
+            <?php echo form_close(); ?>
           </div>
         </div>
       </div>
@@ -72,3 +81,10 @@
 </div>
 </section>
 </div>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded!')
+    document.getElementById('select_jenis_kelamin').value = '<?= $data_gizi['jenis_kelamin'] ?>';
+  });
+</script>

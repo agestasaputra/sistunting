@@ -9,23 +9,19 @@
         <div class="card">
           <?= $this->session->flashdata('notif'); ?>
           <div class="card-body">
-
             <a class="btn btn-primary mb-2" href="<?= base_url('data_balita/form_tambah'); ?>"> <i class="bx bx-plus"></i>Tambah Data</a>
-
             <br>
             <div class="table-responsive">
               <table class="table table-bordered table-md" id="table-2">
                 <thead>
                   <tr>
                     <th class="text-center">No</th>
-
                     <th class="text-center">NIK</th>
                     <th class="text-center">Nama Balita</th>
+                    <th class="text-center">Jenis Kelamin (L/P)</th>
                     <th class="text-center">Tanggal Lahir</th>
-                    <th class="text-center">BB Lahir</th>
-                    <th class="text-center">TB Lahir</th>
-
-
+                    <th class="text-center">BB Lahir (Kg)</th>
+                    <th class="text-center">TB Lahir (Cm)</th>
                     <th class="text-center " style="width: 100px;">Aksi</th>
                   </tr>
                 </thead>
@@ -37,16 +33,12 @@
                   ?>
                       <tr>
                         <td class="text-center"><?= $no++; ?></td>
-
-
                         <td class="text-center"><?= $a['nik']; ?></td>
                         <td class="text-center"><?= $a['nama_balita']; ?></td>
+                        <td class="text-center"><?= $a['jenis_kelamin']; ?></td>
                         <td class="text-center"><?= $a['tgl_lahir']; ?></td>
                         <td class="text-center"><?= $a['bb_lahir']; ?></td>
                         <td class="text-center"><?= $a['tb_lahir']; ?></td>
-
-
-
                         <td class="text-center  " style="width: 100px;">
                           <a class="btn btn-sm btn-primary" href="<?= base_url('data_balita/detail/') . $a['id_balita']; ?>"><i class='fas fa-eye'></i><br></a>
                           <a class="btn btn-sm btn-success" href="<?= base_url('data_balita/detail_ubah/') . $a['id_balita']; ?>"><i class='fas fa-edit'></i><br></a>
@@ -54,7 +46,6 @@
                         </td>
                       </tr>
                     <?php endforeach; ?>
-
                   <?php endif; ?>
                 </tbody>
               </table>
