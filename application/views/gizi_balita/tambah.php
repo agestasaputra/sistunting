@@ -34,7 +34,7 @@
               <div class="form-group row mb-3 mx-2">
                 <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Jenis Kelamin (L/P)</h6>
-                  <select name="jenis_kelamin" id="select_jenis_kelamin" class="form-control" required readonly style="pointer-events: none;">
+                  <select name="jenis_kelamin" id="select_jenis_kelamin" class="form-control" required>
                     <option value="">Silakan Pilih Jenis Kelamin</option>
                     <option value="Laki-laki"> Laki-laki </option>
                     <option value="Perempuan"> Perempuan </option>
