@@ -28,7 +28,7 @@
                     </li>
                 </ul>
             </li>
-          
+
             <li <?= $this->uri->segment(1) == 'data_gejala' ? 'class="nav-item active"' : 'class="nav-item"' ?>>
                 <a class="nav-link" href="<?= base_url('data_gejala'); ?>">
                     <i class='bx bx-dna'></i> <span>Data Gejala</span></a>
