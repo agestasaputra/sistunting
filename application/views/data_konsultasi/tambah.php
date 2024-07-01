@@ -37,8 +37,8 @@
 
                   <select name="jenis_kelamin" class="form-control">
                     <option value="">Silakan Pilih Jenis Kelamin</option>
-                    <option value="laki-laki"> Laki-laki </option>
-                    <option value="perempuan"> Perempuan </option>
+                    <option value="Laki-laki"> Laki-laki </option>
+                    <option value="Perempuan"> Perempuan </option>
                   </select>
                 </div>
               </div>

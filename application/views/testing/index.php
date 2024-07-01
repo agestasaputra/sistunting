@@ -38,8 +38,8 @@
                   <h6 class="text-dark">Jenis Kelamin (L/P)</h6>
                   <select name="jenis_kelamin" id="select_jenis_kelamin" class="form-control" readonly style="pointer-events: none;">
                     <option value="">Pilih jenis kelamin</option>
-                    <option value="laki-laki"> Laki-laki </option>
-                    <option value="perempuan"> Perempuan </option>
+                    <option value="Laki-laki"> Laki-laki </option>
+                    <option value="Perempuan"> Perempuan </option>
                   </select>
                 </div>
               </div>
@@ -96,7 +96,7 @@
                                 <input name="kode_gejala[]" class="form-control" value="<?= $a['kode_gejala']; ?>" required>
                               </div>
                             </div>
-                            <div class="row mb-3 mx-2">
+                            <div class="row mb-3 mx-2 d-none">
                               <div class="col-sm-12 col-md-6">
                                 <input name="nilai_cf[]" id="input_nilai_cf_<?= $no-1 ?>" class="form-control border border-secondary mr-1 mb-1" value="<?= $a['nilai_cf']; ?>" required>
                               </div>
