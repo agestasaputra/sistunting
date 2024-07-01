@@ -9,9 +9,7 @@
         <div class="card">
           <?= $this->session->flashdata('notif'); ?>
           <div class="card-body">
-
-          <a class="btn  btn-primary mb-2" href="#" onclick="printTable();"><i class="bx bx-printer"></i> &nbsp; Cetak Laporan</a>
-
+            <a class="btn  btn-primary mb-2" href="#" onclick="printTable();"><i class="bx bx-printer"></i> &nbsp; Cetak Laporan</a>
             <br>
             <div class="table-responsive">
               <table class="table table-bordered table-md" id="table-2">
@@ -25,8 +23,6 @@
                     <th class="text-center">Berat Badan</th>
                     <th class="text-center">Tinggi Badan</th>
                     <th class="text-center">Status Gizi</th>
-
-                  
                   </tr>
                 </thead>
                 <tbody>
@@ -37,8 +33,6 @@
                   ?>
                       <tr>
                         <td class="text-center"><?= $no++; ?></td>
-
-
                         <td class="text-center"><?= $a['nama_balita']; ?></td>
                         <td class="text-center"><?= $a['jenis_kelamin']; ?></td>
                         <td class="text-center"><?= $a['usia']; ?></td>
@@ -46,17 +40,12 @@
                         <td class="text-center"><?= $a['berat_badan']; ?></td>
                         <td class="text-center"><?= $a['tinggi_badan']; ?></td>
                         <td class="text-center"><?= $a['status_gizi']; ?></td>
-
-
-                       
                       </tr>
                     <?php endforeach; ?>
-
                   <?php endif; ?>
                 </tbody>
               </table>
             </div>
-
           </div>
         </div>
       </div>

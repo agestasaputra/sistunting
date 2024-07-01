@@ -9,9 +9,7 @@
         <div class="card">
           <?= $this->session->flashdata('notif'); ?>
           <div class="card-body">
-
             <a class="btn btn-primary mb-2" href="<?= base_url('gizi_balita/form_tambah'); ?>"> <i class="bx bx-plus"></i>Tambah Data</a>
-
             <br>
             <div class="table-responsive">
               <table class="table table-bordered table-md" id="table-2">
@@ -19,13 +17,11 @@
                   <tr>
                     <th class="text-center">No</th>
                     <th class="text-center">Nama Balita</th>
-                    <th class="text-center">Jenis Kelamin</th>
-                    <th class="text-center">Usia</th>
-            
-                    <th class="text-center">Berat Badan</th>
-                    <th class="text-center">Tinggi Badan</th>
+                    <th class="text-center">Jenis Kelamin (L/P)</th>
+                    <th class="text-center">Usia (Bulan)</th>
+                    <th class="text-center">Berat Badan (Kg)</th>
+                    <th class="text-center">Tinggi Badan (Cm)</th>
                     <!-- <th class="text-center">Status Gizi</th> -->
-
                     <th class="text-center " style="width: 100px;">Aksi</th>
                   </tr>
                 </thead>
@@ -37,29 +33,22 @@
                   ?>
                       <tr>
                         <td class="text-center"><?= $no++; ?></td>
-
-
                         <td class="text-center"><?= $a['nama_balita']; ?></td>
                         <td class="text-center"><?= $a['jenis_kelamin']; ?></td>
                         <td class="text-center"><?= $a['usia']; ?></td>
-           
                         <td class="text-center"><?= $a['berat_badan']; ?></td>
                         <td class="text-center"><?= $a['tinggi_badan']; ?></td>
                         <!-- <td class="text-center"><?= $a['status_gizi']; ?></td> -->
-
-
                         <td class="text-center  " style="width: 100px;">
                           <a class="btn btn-sm btn-success" href="<?= base_url('gizi_balita/detail_ubah/') . $a['id_timbang']; ?>"><i class='fas fa-edit'></i><br></a>
                           <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo $a['id_timbang']; ?>"><i class='fas fa-trash'></i></button>
                         </td>
                       </tr>
                     <?php endforeach; ?>
-
                   <?php endif; ?>
                 </tbody>
               </table>
             </div>
-
           </div>
         </div>
       </div>

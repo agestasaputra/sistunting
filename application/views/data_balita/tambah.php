@@ -13,26 +13,26 @@
             <?php echo form_open_multipart('data_balita/tambah'); ?>
             <form>
 
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">NIK</h6>
                   <input type="text" name="nik" class="form-control" placeholder="Masukan NIK..." required>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Nama Balita</h6>
                   <input type="text" name="nama_balita" class="form-control" placeholder="Masukan Nama Balita ..." required>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Tanggal Lahir</h6>
                   <input type="date" name="tgl_lahir" class="form-control" placeholder="Masukan Nama Balita ..." required>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Jenis Kelamin</h6>
 
                   <select name="jenis_kelamin" class="form-control">
@@ -42,38 +42,38 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Nama Ibu</h6>
                   <input type="text" name="nama_ibu" class="form-control" placeholder="Masukan Nama Ibu ..." required>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Nama Ayah</h6>
                   <input type="text" name="nama_ayah" class="form-control" placeholder="Masukan Nama Ayah ..." required>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Berat Badan Lahir (Kg)</h6>
                   <input type="number" name="bb_lahir" class="form-control" placeholder="Masukan Berat Badan Lahir ..." required>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Tinggi Badan Lahir (Cm) </h6>
                   <input type="number" name="tb_lahir" class="form-control" placeholder="Masukan Tinggi Badan Lahir  ..." required>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Alamat</h6>
                   <input type="text" name="alamat" class="form-control" placeholder="Masukan Alamat ..." required>
                 </div>
               </div>
-              <div class="form-group row mb-3 ml-2">
-                <a href="<?= base_url('data_balita'); ?>" class="btn btn-danger ml-3">Batal</a>
+              <div class="form-group row mb-3 mx-2">
+                <a href="<?= base_url('data_ba2ita'); ?>" class="btn btn-danger ml-3">Batal</a>
                 <button type="submit" class="btn btn-success ml-2">Simpan</button>
               </div>
             </form>
