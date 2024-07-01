@@ -7,12 +7,16 @@
     <div class="row">
       <div class="col-12 col-md-12 ">
         <div class="card">
+          <!-- Toast notification -->
           <?= $this->session->flashdata('notif'); ?>
+
           <div class="card-body">
+            <!-- Php script for handle submit button (redirect into testing/proses) -->
             <?php echo form_open_multipart('testing/proses'); ?>
             <form>
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <!-- Nama Balita -->
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Nama Balita</h6>
                   <select name="nama_balita[]" id="nama_balita" class="form-control" onchange="handleDropdownChange()">
                     <option value=""> Pilih nama balita</option>
@@ -27,9 +31,10 @@
                   </select>
                 </div>
               </div>
-
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              
+              <!-- Jenis Kelamin -->
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Jenis Kelamin (L/P)</h6>
                   <select name="jenis_kelamin" id="jenis_kelamin" class="form-control" readonly style="pointer-events: none;">
                     <option value="">Pilih jenis kelamin</option>
@@ -39,16 +44,18 @@
                 </div>
               </div>
 
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <!-- Usia -->
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Usia (Bulan)<h6>
                   <input type="number" name="usia" id="usia" class="form-control" placeholder="Masukan usia" required readonly style="pointer-events: none;">
                 </div>
-                <!-- <input type="hidden" name="kategori_usia" id="kategori_usia" class="form-co`ntrol" > -->
+                <!-- <input type="hidden" name="kategori_usia" id="kategori_usia" class="form-control" > -->
               </div>
 
-              <div class="form-group row mb-3 ml-2">
-                <div class="col-sm-12 col-md-11">
+              <!-- Tinggi Badan -->
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Tinggi Badan Lahir (Cm) </h6>
                   <input type="number" name="tinggi_badan" id="tinggi_badan" class="form-control" placeholder="Masukan tinggi Badan" required readonly style="pointer-events: none;">
                 </div>
@@ -56,40 +63,57 @@
 
               <h6 class="text-dark ml-4">Gejala yang dialami:</h6>
               <span class="ml-4"><i>Silahkan Pilih Gejala yang di alami!</i></span>
-              <table class="table table-striped ml-4 col-md-11">
-
-                <tbody>
-                  <?php
-                  $no = 1;
-                  if ($data_gejala) :
-                    foreach ($data_gejala as $a) :
-                  ?>
-                      <tr>
-                        <td>
-                          <?= $no++ ?>
-                        </td>
-                        <td>
-                          <span><?= $a['nama_gejala']; ?></span>
-                          <?php
-                            if ($no-1 === 10) echo '<span id="additional-info"><i></i></span>';
-                          ?>
-                        </td>
-                        <td>
-                          <select name="pilihan[]" id="gejala_<?= $no-1 ?>" class="form-control" onchange="handleCf(this.options[this.selectedIndex].text, '<?= $a['nilai_cf'] ?>', '<?= $no-1 ?>')" required <?php echo $no-1 === 10 ? "readonly style='pointer-events: none;'" : ''; ?>>
-                            <option value="">Silakan Pilih </option>
-                            <option value="Ya"> Ya</option>
-                            <option value="Tidak"> Tidak</option>
-                          </select>
-                        </td>
-                        <input type="hidden" name="kode_gejala[]" class="form-control" value="<?= $a['kode_gejala']; ?>" required>
-                        <input type="hidden" name="nilai_cf[]" id="nilai_cf_<?= $no-1 ?>" class="form-control" value="" required>
-                      </tr>
-                    <?php endforeach; ?>
-                  <?php endif; ?>
-                </tbody>
-              </table>
-              <br>
-              <div class="form-group row mb-3 ml-2 mt-4">
+              
+              <!-- Table Gejala. Table Nilai CF dan Table Nilai CF Calculation -->
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
+                  <table class="table table-striped">
+                    <tbody>
+                      <?php
+                      $no = 1;
+                      if ($data_gejala) :
+                        foreach ($data_gejala as $a) :
+                      ?>
+                          <tr>
+                            <td>
+                              <?= $no++ ?>
+                            </td>
+                            <td>
+                              <span><?= $a['nama_gejala']; ?></span>
+                              <?php
+                                if ($no-1 === 10) echo '<span id="additional-info"><i></i></span>';
+                              ?>
+                            </td>
+                            <td>
+                              <select name="pilihan[]" id="gejala_<?= $no-1 ?>" class="form-control" onchange="handleCf(this.options[this.selectedIndex].text, '<?= $a['nilai_cf'] ?>', '<?= $no-1 ?>')" required <?php echo $no-1 === 10 ? "readonly style='pointer-events: none;'" : ''; ?>>
+                                <option value="">Silakan Pilih </option>
+                                <option value="Ya"> Ya</option>
+                                <option value="Tidak"> Tidak</option>
+                              </select>
+                            </td>
+                            <div class="row mb-3 mx-2 d-none">
+                              <div class="col-sm-12 col-md-6">
+                                <input name="kode_gejala[]" class="form-control" value="<?= $a['kode_gejala']; ?>" required>
+                              </div>
+                            </div>
+                            <div class="row mb-3 mx-2 d-none">
+                              <div class="col-sm-12 col-md-6">
+                                <input name="nilai_cf[]" id="nilai_cf_<?= $no-1 ?>" class="form-control border border-secondary mr-1 mb-1" value="<?= $a['nilai_cf']; ?>" required>
+                              </div>
+                              <div class="col-sm-12 col-md-6">
+                                <input name="nilai_cf_calculation[]" id="nilai_cf_calculation_<?= $no-1 ?>" class="form-control border border-success" value="" required>
+                              </div>
+                            </div>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <!-- Button Simpan dan Batal -->
+              <div class="form-group row mb-3 ml-2">
                 <a href="<?= base_url('data_gejala'); ?>" class="btn btn-danger ml-3">Batal</a>
                 <button type="submit" class="btn btn-success ml-2">Simpan</button>
               </div>
@@ -105,12 +129,14 @@
 </div>
 
 <script type="text/javascript">
+  // this code will run every page is loaded
   window.addEventListener("pageshow", () => {
-    // update hidden input field
     resetInput()
+    // reset nama balita form value
     const formNamaBalita = document.getElementById('nama_balita');
     formNamaBalita.value = '';
   });
+  // this function purpose is to reset all input value
   function resetInput() {
     const formJenisKelamin = document.getElementById('jenis_kelamin');
     const formTinggiBadan = document.getElementById('tinggi_badan');
@@ -125,17 +151,6 @@
     const formGelaja8 = document.getElementById('gejala_8');
     const formGelaja9 = document.getElementById('gejala_9');
     const formGelaja10 = document.getElementById('gejala_10');
-
-    const formNilaiCf1 = document.getElementById('nilai_cf_1');
-    const formNilaiCf2 = document.getElementById('nilai_cf_2');
-    const formNilaiCf3= document.getElementById('nilai_cf_3');
-    const formNilaiCf4 = document.getElementById('nilai_cf_4');
-    const formNilaiCf5 = document.getElementById('nilai_cf_5');
-    const formNilaiCf6 = document.getElementById('nilai_cf_6');
-    const formNilaiCf7 = document.getElementById('nilai_cf_7');
-    const formNilaiCf8 = document.getElementById('nilai_cf_8');
-    const formNilaiCf9 = document.getElementById('nilai_cf_9');
-    const formNilaiCf10 = document.getElementById('nilai_cf_10');
     formJenisKelamin.value = '';
     formTinggiBadan.value = '';
     formUsia.value = '';
@@ -149,17 +164,8 @@
     formGelaja8.value = ''
     formGelaja9.value = ''
     formGelaja10.value = ''
-    formNilaiCf1.value = ''
-    formNilaiCf2.value = ''
-    formNilaiCf3.value = ''
-    formNilaiCf4.value = ''
-    formNilaiCf5.value = ''
-    formNilaiCf6.value = ''
-    formNilaiCf7.value = ''
-    formNilaiCf8.value = ''
-    formNilaiCf9.value = ''
-    formNilaiCf10.value = ''
   }
+  // this function purpose is to fill the whole form nilai_cf_calculation (exclude nilai_cf_calculation_10) based on gejala value (Ya/Tidak)
   function handleCf(value, nilaiCf, index) {
     let result = null
     if (value === 'Ya') {
@@ -167,7 +173,7 @@
     } else {
       result = 0
     }
-    const domNilaiCf = document.getElementById(`nilai_cf_${index}`)
+    const domNilaiCf = document.getElementById(`nilai_cf_calculation_${index}`)
     domNilaiCf.value = result
   }
   function generateDescriptionAge(age, currentHeight) {
@@ -183,13 +189,20 @@
     } if (age < 12) {
       heightLimit = 45
     }
+    // generate additional info (height limit) based on age
     const additionalInfoDOM = document.getElementById('additional-info')
     additionalInfoDOM.innerHTML = `<i>(Tinggi badan normal untuk usia <b>${age} bulan</b> adalah <b>${heightLimit} cm</b>)</i>`
+
+    // assign value form gelaja_10 based on heightLimit
     const formGelaja10 = document.getElementById('gejala_10');
     formGelaja10.value = currentHeight >= heightLimit ? 'Ya' : 'Tidak';
-    const domNilaiCf = document.getElementById(`nilai_cf_10`)
-    domNilaiCf.value = formGelaja10.value === 'Ya' ? 0.8 : 0
+    
+    // assign value form nilai_cf_10 based on formGelaja10
+    const formNilaiCfCalculation10 = document.getElementById('nilai_cf_calculation_10');
+    const formNilaiCf10 = document.getElementById('nilai_cf_10');
+    formNilaiCfCalculation10.value = formGelaja10.value === 'Ya' ? formNilaiCf10.value : 0
   }
+  // this function purpose is to get age based on tglLahir
   function getAge(tglLahir) {
     const birthDate = new Date(tglLahir);
     const today = new Date();
@@ -197,6 +210,7 @@
     const ageInMonths = monthDiff + (today.getDate() < birthDate.getDate() ? -1 : 0);
     return ageInMonths
   }
+  // this function purpose is to handle dropdown change event
   function handleDropdownChange($event) {
     const BASE_URL = '<?php echo base_url(); ?>';
     $.ajax({
@@ -205,11 +219,13 @@
       dataType: "json",
       success: function(response) {
         console.log('response:', response)
+        // if response is null, reset input and stop the flow
         if (!response) {
           resetInput()
           return;
         }
-        // mapping data to form
+
+        // fill form value based on response
         const formJenisKelamin = document.getElementById('jenis_kelamin');
         formJenisKelamin.value = response.jenis_kelamin;
         const formTinggiBadan = document.getElementById('tinggi_badan');
