@@ -4,6 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class model_data_konsultasi extends CI_Model
 {
+    public function post($data)
+    {
+        $this->db->insert('table_data_konsultasi', $data);
+    }
     public function get()
     {
         return $this->db->get('table_data_konsultasi')->result_array();

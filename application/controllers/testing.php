@@ -18,7 +18,7 @@ class testing extends CI_Controller
             Ups..Silahkan Login Terlebih Dahulu yah, Terima kasih!!</div>');
             redirect('auth');
         }
-        $data['judul'] = 'Tetsing Stunting';
+        $data['judul'] = 'Testing Stunting';
         $data['nama'] =  $this->session->userdata('nama');
         $data['data_gejala'] = $this->model_data_gejala->get();
         $data['data_balita'] = $this->model_data_balita->get();
@@ -37,122 +37,104 @@ class testing extends CI_Controller
         echo json_encode($data_detail_balita);
     }
 
-    // OLD LOGIC
+    // NEW LOGIC
     public function proses()
     {
-        //Mengambil data gejala dari pakar
-        $data_gejala = $this->model_data_gejala->get();
-
-        //mengambil inputan data gejala dari pengguna
-        $inputan_gejala = $this->input->post('pilihan');
-        $inputan_kode = $this->input->post('kode_gejala');
-
-        $jenis_kelamin = $this->input->post('jenis_kelamin');
-        $usia = $this->input->post('kategori_usia');
-        $tinggi_badan = intval($this->input->post('tinggi_badan'));
-
-        //memasukan inputan gejala ke dalam array data inputan.
-        $data_indikator = $this->model_data_indikator->cari_data($usia, $jenis_kelamin);
-        $data_inputan=array();
-        foreach ($data_indikator as $a) {
-            if ($tinggi_badan < $a['tinggi']) {
-                $data_inputan[] = $a['nilai_cf'];
-            }
-           
-        }
-        if($data_inputan==NULL){
-            $data_inputan[]=0;
-        }
-        
-        foreach ($inputan_gejala as $index => $pilihan) {
-            if ($pilihan == "Ya") {
-                $data_inputan[] = $inputan_kode[$index];
-            }
-        }
-
-        //Fungsi untuk menghitung kombinasi Certainty Factor
-        function calculateCFCombine($cf1, $cf2)
+        // fungsi ini bertujuan untuk menghitung nilai cf_old
+        function cf_formula($cf_variable_satu, $cf_variable_dua)
         {
-            return $cf1 + $cf2 * (1 - $cf1);
+            // kode ini adalah formula/rumus untuk menghitung nilai cf_old
+            $formula = $cf_variable_satu + $cf_variable_dua * (1 - $cf_variable_satu);
+            // round_value bertujuan untuk membulatkan nilai cf_old menjadi 3 angka dibelakang koma
+            $round_value = round($formula, 3);
+            return $round_value;
         }
-
-
-        if ($data_inputan > 2) {
-            // Inisialisasi nilai kombinasi Certainty Factor
-        
-            $nilai_cf1 = $data_inputan[0];
-            $cek_gejala2 = $this->model_data_gejala->get_data($data_inputan[1]);
-            $nilai_cf2 = $cek_gejala2['nilai_cf'];
-            $cfCombine = calculateCFCombine($nilai_cf1, $nilai_cf2);
-            $data_inputancombine = array_slice($data_inputan, 2);
-            // Perhitungan kombinasi untuk gejala yang dialami oleh pengguna
-            if (!empty($data_inputan)) {
-                foreach ($data_inputancombine as $kode_gejala) {
-                    $cari_gejala = $this->model_data_gejala->get_data($kode_gejala);
-
-                    $nilai_cf = $cari_gejala['nilai_cf'];
-                    $cfCombine = calculateCFCombine($cfCombine, $nilai_cf);
-                }
+        // fungsi ini adalah fungsi utama untuk memproses perhitungan nilai CF 
+        function logic_proses_calculate_cf_percentage($inputan_nilai_cf)
+        {
+            $cf_old = 0;
+            $cf_percentage = 0;
+            
+            // $inputan_nilai_cf_filter adalah value $inputan_nilai_cf yang lebih besar dari 0
+            $inputan_nilai_cf_filter = array_values(array_filter($inputan_nilai_cf, function ($value) {
+                return $value > 0;
+            }));
+            
+            // jika $inputan_nilai_cf_filter kosong, maka $cf_percentage = 0
+            if (count($inputan_nilai_cf_filter) === 0) {
+                print_r('masuk 1');
+                print_r('<br>');
+                $cf_percentage = 0;
             }
-        }elseif ($data_inputan==2) {
-            $nilai_cf1 = $data_inputan[0];
-            $cek_gejala2 = $this->model_data_gejala->get_data($data_inputan[1]);
-            $nilai_cf2 = $cek_gejala2['nilai_cf'];
-            $cfCombine = calculateCFCombine($nilai_cf1, $nilai_cf2);
+
+            // jika $inputan_nilai_cf_filter hanya memiliki 1 value, maka $cf_percentage = $inputan_nilai_cf_filter[0] * 100
+            if (count($inputan_nilai_cf_filter) === 1) {
+                print_r('masuk 2');
+                print_r('<br>');
+                $cf_percentage = $inputan_nilai_cf_filter[0] * 100;
+            }
+
+            // jika $inputan_nilai_cf_filter memiliki lebih dari 1 value, maka akan menghasilkan $cf_old dan $cf_percentage dengan menggunakan $cf_formula
+            if (count($inputan_nilai_cf_filter) > 1) {
+                print_r('masuk 3');
+                print_r('<br>');
+
+                // menghasilkan $cf_old dengan menggunakan $cf_formula dari $inputan_nilai_cf_filter[0] dan $inputan_nilai_cf_filter[1]
+                $cf_old = cf_formula($inputan_nilai_cf_filter[0], $inputan_nilai_cf_filter[1]);
+
+                // jika $inputan_nilai_cf_filter memiliki lebih dari 2 value, maka akan dilakukan looping
+                if (count($inputan_nilai_cf_filter) > 2) {
+                    foreach ($inputan_nilai_cf_filter as $index => $pilihan) {
+                        // $cf adalah nilai dari $inputan_nilai_cf_filter selanjutnya
+                        $cf_next = $inputan_nilai_cf_filter[$index];
+
+                        // jika $index lebih dari 1, maka $cf_old akan ditimpa dengan nilai baru hasil dari $cf_formula
+                        if ($index > 1) {
+                            $cf_old = cf_formula($cf_old, $cf_next);
+                        }
+                    }
+                }
+                
+                // $cf_percentage adalah nilai dari $cf_old dikali 100
+                $cf_percentage = $cf_old * 100;
+            }
+            return $cf_percentage;
         }
 
-        // Persentase Akhir
-        $percentage = $cfCombine*100;
+        
+        // mengambil id_balita dari input_nama_balita dari halaman view dan menyimpannya ke dalam variabel
+        $id_balita = $this->input->post('nama_balita');
+        // Mengambil data detail balita dari db dan menyimpannya ke dalam variabel
+        $data_detail_balita = $this->model_data_balita->get_detail($id_balita);
 
-        $data_konsultasi=[
-            'nama_balita'=>$this->input->post('nama_balita'),
-            'jenis_kelamin'=>$jenis_kelamin,
-            'usia'=>$this->input->post('usia'),
-            'tinggi'=>$tinggi_badan,
-            'hasil'=>$percentage
+        // mengambil value dari seluruh form dari halaman view dan menyimpannya ke dalam variabel
+        $nama_balita = $data_detail_balita['nama_balita'];
+        $jenis_kelamin = $this->input->post('jenis_kelamin');
+        $usia = $this->input->post('usia');
+        $tinggi_badan = $this->input->post('tinggi_badan');
+        $inputan_gejala = $this->input->post('pilihan');
+        $inputan_nilai_cf = $this->input->post('nilai_cf_calculation');
 
+        // logic untuk memproses kalkulasi dari nilai CF per gejala
+        $cf_percentage = logic_proses_calculate_cf_percentage($inputan_nilai_cf);
+
+        // mengumpulkan data yang akan dimasukkan ke dalam table_data_konsultasi
+        $data = [
+            'nama_balita' => $nama_balita,
+            'jenis_kelamin' => $jenis_kelamin,
+            'usia' => $usia,
+            'tinggi' => $tinggi_badan,
+            'hasil' => $cf_percentage
         ];
-        $this->db->insert('table_data_konsultasi', $data_konsultasi);
+        // insert data ke table_data_konsultasi
+        $this->db->insert('table_data_konsultasi', $data);
+        // notifikasi flashdata
         $this->session->set_flashdata('notif', '<div class="alert alert-success" role="alert">
-        <b>Data konsultasi Berhasil Disimpan! </div>');
+        <b>Data Konsultasi Berhasil Ditambahkan! </div>');
+        // auto pindah halaman ke url '/data_konsultasi'
         redirect('data_konsultasi');
+        return;
     }
-
-    // NEW LOGIC
-    // public function proses()
-    // {
-
-    //     $id_balita = $this->input->post('nama_balita');
-        
-    //     // Mengambil data gejala dari db
-    //     $data_gejala = $this->model_data_gejala->get();
-        
-    //     // Mengambil data detail balita dari db
-    //     $data_detail_balita = $this->model_data_balita->get_detail($id_balita[0]);
-
-    //     //mengambil inputan data gejala dari pengguna
-    //     $nama_balita = $data_detail_balita['nama_balita'];
-    //     $jenis_kelamin = $data_detail_balita['jenis_kelamin'];
-    //     $usia = $this->input->post('usia');
-    //     $tinggi_badan = $this->input->post('tb_lahir');
-    //     $inputan_gejala = $this->input->post('pilihan');
-    //     $inputan_kode_gejala = $this->input->post('kode_gejala');
-    //     $inputan_nilai_cf = $this->input->post('nilai_cf');
-
-    //     $cfGejala = array();
-
-    //     foreach ($inputan_gejala as $index => $pilihan) {
-    //         print_r("Pilihan: $pilihan <br>");
-    //         if ($pilihan === 'Ya') {
-    //             array_push($cfGejala, $inputan_nilai_cf[$index]);
-    //         }
-    //     }
-
-
-    //     foreach ($cfGejala as $index => $value) {
-    //         echo "CF Gejala ke-".($index+1)." = ".$value."<br>";
-    //     }
-    // }
 
     public function detail($id)
     {
