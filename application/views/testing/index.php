@@ -11,14 +11,14 @@
           <?= $this->session->flashdata('notif'); ?>
 
           <div class="card-body">
-            <!-- Php script for handle submit button (redirect into testing/proses) -->
+            <!-- Php script untuk menghandlue submit button (redirect ke halaman testing/proses) -->
             <?php echo form_open_multipart('testing/proses'); ?>
             <form>
               <!-- Nama Balita -->
               <div class="form-group row mb-3 mx-2">
                 <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Nama Balita</h6>
-                  <select name="nama_balita[]" id="select_nama_balita" class="form-control" onchange="handle_dropdown_change(this.options[this.selectedIndex].value)">
+                  <select name="nama_balita" id="select_nama_balita" class="form-control" onchange="handle_dropdown_change(this.options[this.selectedIndex].value)">
                     <option value=""> Pilih nama balita</option>
                     <?php
                     $no = 1;
@@ -219,7 +219,7 @@
     const birth_date = new Date(tgl_lahir);
     // kode ini bertujuan untuk mendapatkan tanggal hari ini (dalam bentuk format Date di Javascript)
     const today = new Date();
-    // kode ini bertujuan untuk menghitung selisih bulan antara tgl_lahir dan hari ini
+    // kode ini bertujuan untuk menghitung selisih bulan antara birth_date dan today
     const month_diff = (today.getFullYear() - birth_date.getFullYear()) * 12 + (today.getMonth() - birth_date.getMonth());
     // kode ini bertujuan untuk menghitung usia dalam bulan
     const age_in_months = month_diff + (today.getDate() < birth_date.getDate() ? -1 : 0);
@@ -228,7 +228,7 @@
 
   // fungsi ini bertujuan untuk menghandle ketika terdapat perubahan value pada select_nama_balita
   function handle_dropdown_change(balita_id) {
-    // kode bertujuan untuk melakukan ajax proses untuk mengambil data_detail_balita berdasarkan balita_id
+    // kode ini bertujuan untuk melakukan proses ajax tujuannya untuk mengambil data_detail_balita berdasarkan balita_id
     const BASE_URL = '<?php echo base_url(); ?>';
     $.ajax({
       type: "GET",
@@ -238,7 +238,7 @@
         console.log('response:', response)
         // jika response null (kosong/tidak ada datanya), maka reset input dan hentikan alur
         if (!response) {
-          resetInput()
+          handle_reset_input()
           return;
         }
 

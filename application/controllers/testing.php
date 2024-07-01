@@ -40,12 +40,12 @@ class testing extends CI_Controller
     // NEW LOGIC
     public function proses()
     {
-        // fungsi ini bertujuan untuk menghitung nilai CF per gejala
+        // fungsi ini bertujuan untuk menghitung nilai cf_old
         function cf_formula($cf_variable_satu, $cf_variable_dua)
         {
-            // kode ini adalah formula/rumus untuk menghitung nilai CF pergejala
+            // kode ini adalah formula/rumus untuk menghitung nilai cf_old
             $formula = $cf_variable_satu + $cf_variable_dua * (1 - $cf_variable_satu);
-            // round_value bertujuan untuk membulatkan nilai CF pergejala menjadi 3 angka dibelakang koma
+            // round_value bertujuan untuk membulatkan nilai cf_old menjadi 3 angka dibelakang koma
             $round_value = round($formula, 3);
             return $round_value;
         }
@@ -102,10 +102,10 @@ class testing extends CI_Controller
         }
 
         
-        // mengambil nama_balita dari halaman view dan menyimpannya ke dalam variabel
+        // mengambil id_balita dari input_nama_balita dari halaman view dan menyimpannya ke dalam variabel
         $id_balita = $this->input->post('nama_balita');
         // Mengambil data detail balita dari db dan menyimpannya ke dalam variabel
-        $data_detail_balita = $this->model_data_balita->get_detail($id_balita[0]);
+        $data_detail_balita = $this->model_data_balita->get_detail($id_balita);
 
         // mengambil value dari seluruh form dari halaman view dan menyimpannya ke dalam variabel
         $nama_balita = $data_detail_balita['nama_balita'];
