@@ -33,7 +33,7 @@
               </div>
               
               <!-- Jenis Kelamin -->
-              <div class="form-group row mb-3 mx-2">
+              <!-- <div class="form-group row mb-3 mx-2">
                 <div class="col-sm-12 col-md-12">
                   <h6 class="text-dark">Jenis Kelamin (L/P)</h6>
                   <select name="jenis_kelamin" id="select_jenis_kelamin" class="form-control" readonly style="pointer-events: none;">
@@ -42,6 +42,15 @@
                     <option value="Perempuan"> Perempuan </option>
                   </select>
                 </div>
+              </div> -->
+
+              <!-- Usia -->
+              <div class="form-group row mb-3 mx-2">
+                <div class="col-sm-12 col-md-12">
+                  <h6 class="text-dark">Jenis Kelamin (Bulan)<h6>
+                  <input type="text" name="jenis_kelamin" id="select_jenis_kelamin" class="form-control" placeholder="Masukkan jenis kelamin" required readonly style="pointer-events: none;">
+                </div>
+                <!-- <input type="hidden" name="kategori_usia" id="kategori_usia" class="form-control" > -->
               </div>
 
               <!-- Usia -->
@@ -228,6 +237,8 @@
 
   // fungsi ini bertujuan untuk menghandle ketika terdapat perubahan value pada select_nama_balita
   function handle_dropdown_change(balita_id) {
+    const select_jenis_kelamin = document.getElementById('select_jenis_kelamin');
+    const input_tinggi_badan = document.getElementById('input_tinggi_badan');
     // kode ini bertujuan untuk melakukan proses ajax tujuannya untuk mengambil data_detail_balita berdasarkan balita_id
     const BASE_URL = '<?php echo base_url(); ?>';
     $.ajax({
@@ -243,10 +254,9 @@
         }
 
         // kode ini bertujuan untuk mengisi value select_jenis_kelamin, input_tinggi_badan, dan input_usia berdasarkan response
-        const select_jenis_kelamin = document.getElementById('select_jenis_kelamin');
         select_jenis_kelamin.value = response.jenis_kelamin;
-        const input_tinggi_badan = document.getElementById('input_tinggi_badan');
-        input_tinggi_badan.value = response.tb_lahir;        
+        input_tinggi_badan.value = response.tb_lahir;     
+        console.log( select_jenis_kelamin.value);   
         const input_usia = document.getElementById('input_usia');
         const hasil_usia = get_age(response.tgl_lahir); 
         input_usia.value = hasil_usia;
