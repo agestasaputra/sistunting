@@ -50,43 +50,49 @@ class testing extends CI_Controller
             return $round_value;
         }
         // fungsi ini adalah fungsi utama untuk memproses perhitungan nilai CF 
-        function logic_proses_calculate_cf_percentage($inputan_nilai_cf)
+        function logic_proses_calculate_cf_percentage($hasil_cf_calculation)
         {
             $cf_old = 0;
             $cf_percentage = 0;
             
-            // $inputan_nilai_cf_filter adalah value $inputan_nilai_cf yang lebih besar dari 0
-            $inputan_nilai_cf_filter = array_values(array_filter($inputan_nilai_cf, function ($value) {
+            // $hasil_cf_calculation_filter adalah value $hasil_cf_calculation yang lebih besar dari 0
+            $hasil_cf_calculation_filter = array_values(array_filter($hasil_cf_calculation, function ($value) {
                 return $value > 0;
             }));
+
+            // untuk debugging
+            // print_r('<b>$hasil_cf_calculation_filter:</b>');
+            // print_r('<br>');
+            // print_r($hasil_cf_calculation_filter);
+            // print_r('<br>');
             
-            // jika $inputan_nilai_cf_filter kosong, maka $cf_percentage = 0
-            if (count($inputan_nilai_cf_filter) === 0) {
-                print_r('masuk 1');
-                print_r('<br>');
+            // jika $hasil_cf_calculation_filter kosong, maka $cf_percentage = 0
+            if (count($hasil_cf_calculation_filter) === 0) {
+                // untuk debugging
+                // print_r('#1');
                 $cf_percentage = 0;
             }
-
-            // jika $inputan_nilai_cf_filter hanya memiliki 1 value, maka $cf_percentage = $inputan_nilai_cf_filter[0] * 100
-            if (count($inputan_nilai_cf_filter) === 1) {
-                print_r('masuk 2');
-                print_r('<br>');
-                $cf_percentage = $inputan_nilai_cf_filter[0] * 100;
+            
+            // jika $hasil_cf_calculation_filter hanya memiliki 1 value, maka $cf_percentage = $hasil_cf_calculation_filter[0] * 100
+            if (count($hasil_cf_calculation_filter) === 1) {
+                // untuk debugging
+                // print_r('#2');
+                $cf_percentage = $hasil_cf_calculation_filter[0] * 100;
             }
+            
+            // jika $hasil_cf_calculation_filter memiliki lebih dari 1 value, maka akan menghasilkan $cf_old dan $cf_percentage dengan menggunakan $cf_formula
+            if (count($hasil_cf_calculation_filter) > 1) {
+                // untuk debugging
+                // print_r('#3');
 
-            // jika $inputan_nilai_cf_filter memiliki lebih dari 1 value, maka akan menghasilkan $cf_old dan $cf_percentage dengan menggunakan $cf_formula
-            if (count($inputan_nilai_cf_filter) > 1) {
-                print_r('masuk 3');
-                print_r('<br>');
+                // menghasilkan $cf_old dengan menggunakan $cf_formula dari $hasil_cf_calculation_filter[0] dan $hasil_cf_calculation_filter[1]
+                $cf_old = cf_formula($hasil_cf_calculation_filter[0], $hasil_cf_calculation_filter[1]);
 
-                // menghasilkan $cf_old dengan menggunakan $cf_formula dari $inputan_nilai_cf_filter[0] dan $inputan_nilai_cf_filter[1]
-                $cf_old = cf_formula($inputan_nilai_cf_filter[0], $inputan_nilai_cf_filter[1]);
-
-                // jika $inputan_nilai_cf_filter memiliki lebih dari 2 value, maka akan dilakukan looping
-                if (count($inputan_nilai_cf_filter) > 2) {
-                    foreach ($inputan_nilai_cf_filter as $index => $pilihan) {
-                        // $cf adalah nilai dari $inputan_nilai_cf_filter selanjutnya
-                        $cf_next = $inputan_nilai_cf_filter[$index];
+                // jika $hasil_cf_calculation_filter memiliki lebih dari 2 value, maka akan dilakukan looping
+                if (count($hasil_cf_calculation_filter) > 2) {
+                    foreach ($hasil_cf_calculation_filter as $index => $pilihan) {
+                        // $cf adalah nilai dari $hasil_cf_calculation_filter selanjutnya
+                        $cf_next = $hasil_cf_calculation_filter[$index];
 
                         // jika $index lebih dari 1, maka $cf_old akan ditimpa dengan nilai baru hasil dari $cf_formula
                         if ($index > 1) {
@@ -100,8 +106,17 @@ class testing extends CI_Controller
             }
             return $cf_percentage;
         }
+        function getKeterangan($cf_percentage)
+        {
+            $keterangan = '';
+            if ($cf_percentage >= 0 && $cf_percentage < 55) {
+                $keterangan = 'Tidak stunting';
+            } else {
+                $keterangan = 'Stunting';
+            }
+            return $keterangan;
+        }
 
-        
         // mengambil id_balita dari input_nama_balita dari halaman view dan menyimpannya ke dalam variabel
         $id_balita = $this->input->post('nama_balita');
         // Mengambil data detail balita dari db dan menyimpannya ke dalam variabel
@@ -112,19 +127,61 @@ class testing extends CI_Controller
         $jenis_kelamin = $this->input->post('jenis_kelamin');
         $usia = $this->input->post('usia');
         $tinggi_badan = $this->input->post('tinggi_badan');
-        $inputan_gejala = $this->input->post('pilihan');
-        $inputan_nilai_cf = $this->input->post('nilai_cf_calculation');
+        $dropdown_inputan_gejala = $this->input->post('pilihan');
+        $data_gejala = $this->model_data_gejala->get();
 
+        // untuk debugging
+        // print_r('<b>$dropdown_inputan_gejala - json_encode</b>');
+        // print_r('<br>');
+        // print_r(json_encode($dropdown_inputan_gejala));
+        // print_r(gettype($dropdown_inputan_gejala));
+        // print_r('<br>');
+
+        // mengambil nilai_cf dari $data_gejala dan menyimpannya ke dalam variabel
+        // ex: [0.1, 0.2, 0.3, 0.4, 0.5]
+        $data_gejala_string = array_map(function ($value) {
+            return $value['nilai_cf'];
+        }, $data_gejala);
+        
+        // untuk debugging
+        // print_r('<b>$data_gejala_string - json_encode</b>');
+        // print_r('<br>');
+        // print_r(json_encode($data_gejala_string));
+        // print_r(gettype($data_gejala_string));
+        // print_r('<br>');
+        
+        // logic untuk menghitung nilai CF per gejala dengan cara mengalikan dropdown_inputan_gejala dengan data_gejala_string
+        $hasil_cf_calculation = [];
+        foreach ($dropdown_inputan_gejala as $index => $value) {
+            $result = $value * $data_gejala_string[$index];
+            $hasil_cf_calculation[] = round($result, 3);
+        }
+
+        // untuk debugging
+        // print_r('<b>$hasil_cf_calculation - json_encode</b>');
+        // print_r('<br>');
+        // print_r($hasil_cf_calculation);
+        // print_r(gettype($hasil_cf_calculation));
+        // print_r('<br>');
+        
         // logic untuk memproses kalkulasi dari nilai CF per gejala
-        $cf_percentage = logic_proses_calculate_cf_percentage($inputan_nilai_cf);
-
+        $cf_percentage = logic_proses_calculate_cf_percentage($hasil_cf_calculation);
+        
+        // untuk debugging
+        // print_r('<b>$cf_percentage - json_encode</b>');
+        // print_r('<br>');
+        // print_r($cf_percentage);
+        // print_r(gettype($cf_percentage));
+        // print_r('<br>');
+        
         // mengumpulkan data yang akan dimasukkan ke dalam table_data_konsultasi
         $data = [
             'nama_balita' => $nama_balita,
             'jenis_kelamin' => $jenis_kelamin,
             'usia' => $usia,
             'tinggi' => $tinggi_badan,
-            'hasil' => $cf_percentage
+            'diagnosa' => $cf_percentage,
+            'keterangan' => getKeterangan($cf_percentage)
         ];
         // insert data ke table_data_konsultasi
         $this->db->insert('table_data_konsultasi', $data);
