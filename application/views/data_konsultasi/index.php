@@ -19,7 +19,8 @@
                     <th class="text-center">Jenis Kelamin (L/P)</th>
                     <th class="text-center">Usia (Bulan)</th>
                     <th class="text-center">Tinggi Badan (Cm)</th>
-                    <th class="text-center">Hasil Diagnosa</th>
+                    <th class="text-center">Diagnosa</th>
+                    <th class="text-center">Keterangan</th>
                     <th class="text-center " style="width: 100px;">Aksi</th>
                   </tr>
                 </thead>
@@ -35,7 +36,8 @@
                         <td class="text-center"><?= $a['jenis_kelamin']; ?></td>
                         <td class="text-center"><?= $a['usia']; ?></td>
                         <td class="text-center"><?= $a['tinggi']; ?></td>
-                        <td class="text-center"><?= $a['hasil']; ?>%  Stunting</td>
+                        <td class="text-center"><?= $a['diagnosa']; ?>% </td>
+                        <td class="text-center"><?= $a['keterangan']; ?></td>
                         <td class="text-center  " style="width: 100px;">
                           <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo $a['id_konsultasi']; ?>"><i class='fas fa-trash'></i></button>
                         </td>
